@@ -1,0 +1,433 @@
+
+
+
+            <!-- ****************************************************************** -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Contact - Sailor Bootstrap Template</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: Sailor
+  * Updated: Jul 27 2023 with Bootstrap v5.3.1
+  * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center">
+        <!-- <h1 class="logo me-auto"><a href="index.html">Bakeli</a></h1> -->
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <a href="index.html" class="logo me-auto"
+          ><img src="assets/img/bakeli.png" alt="" class="img-fluid"
+        /></a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <!-- <li><a href="index.html" class="active">Accueil</a></li> -->
+
+            <!-- <li class="dropdown"><a href="#"><span>A propos</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="./about.html">A propos</a></li>
+              <li><a href="./team.html">Equipe</a></li>
+              
+              <li><a href="./testimonials.html">Temoignage</a></li>
+
+              <li class="dropdown"><a href="#"><span>Nos offres </span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Postuler pour un emploi</a></li>
+                  <li><a href="#">Autres</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li> -->
+            <li><a href="#" class="getstarted bg-primary">Déconnexion</a></li>
+            <!-- <li><a href="services.html">Services</a></li> -->
+            <!-- <li><a href="portfolio.html">Portfolio</a></li> -->
+            <!-- <li>
+              <a href="inscription.html" class="getstarted bg-primary"
+                >Inscription</a
+              >
+            </li> -->
+            <!-- <li><a href="dblog.html">Blog</a></li> -->
+            <!-- <li>
+              <a href="blog.html" class="getstarted bg-primary">Se connecter</a>
+            </li>
+            <li><a href="contact.html">Nous-contactez</a></li> -->
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+    <!-- End Header -->
+
+    <main id="main">
+      <!-- ======= Breadcrumbs ======= -->
+      <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2>Stocker un produit</h2>
+            <ol>
+              <li><a href="auth_reussi.html">Accueil</a></li>
+              <li>Stockage</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+      <!-- End Breadcrumbs -->
+
+      <!-- ======= Contact Section ======= -->
+      
+      <section id="contact" class="contact">
+        <div class="container">
+          <div></div>
+
+          <div class="row mt-5">
+          <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bd_authentification";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Échec de la connexion à la base de données : " . $conn->connect_error);
+}
+
+// Utilisez la méthode préparée pour éviter les injections SQL
+$sql = "INSERT INTO produits (nomProduit, prixProduit, date_enregistrement, message1, nombreElement, categorie) VALUES (?, ?, NOW(), ?, ?, ?)";
+
+$stmt = $conn->prepare($sql);
+
+if ($stmt) {
+    // Liez les paramètres
+    
+
+    $stmt->bind_param("sdsis", $nomProduit, $prixProduit , $message1, $nombreElement, $categorie);
+
+    // Définissez les valeurs des variables
+    $nomProduit = isset($_POST['nomProduit']) ? $_POST['nomProduit'] : '';
+    $prixProduit = isset($_POST['prixProduit']) ? $_POST['prixProduit'] : 0;
+    $nombreElement = isset($_POST['nombreElement']) ? $_POST['nombreElement'] : 0;
+    $message1 = isset($_POST['message1']) ? $_POST['message1'] : '';
+    $categorie = isset($_POST['categorie']) ? $_POST['categorie'] : '';
+
+    // Exécutez la requête
+    if ($stmt->execute()) {
+        echo '<p style="color:white; text-align:right"><span style="background-color:blue"> Produit enregistrer avec succees !</span></p>';
+    } else {
+        echo "Erreur lors de l'enregistrement : " . $stmt->error;
+    }
+
+    // Fermez la déclaration
+    $stmt->close();
+} else {
+    echo "Erreur lors de la préparation de la requête : " . $conn->error;
+}
+
+// Fermeture de la connexion à la base de données
+$conn->close();
+?>
+<h4 style="text-align: left;"><a href="auth_reussi.html"><span style="border-radius:5px; background-color:blue; color:white" >Retour vers l'acceuil</span></a></h4>
+            <div class="col-lg-4">
+              <img src="assets/img/blog/blog-2.jpg" class="img-fluid" alt=""  style="height: 100%;"/>
+            </div>
+            <div class="col-lg-8 mt-5 mt-lg-0">
+              <form action="contact.php" method="post" >
+                <div class="row ms-5" >
+                  <div class="col-lg-12">
+          
+                    <div class="card">
+                      <div class="card-body">
+                        
+          
+                        <form class="row g-3">
+                          <div class="col-md-8">
+                          <label for="floatingName">Nom Produit</label>
+                            <div class="form-floating">
+                            
+                              <input type="text" class="form-control" id="floatingName" placeholder="Nom Produit" name="nomProduit" required>
+                              
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                          <label for="floatingEmail">Prix</label>
+                            <div class="form-floating">
+                              <input type="number" class="form-control" id="floatingEmail" placeholder="prix produit" name="prixProduit" required>
+                              
+                            </div>
+                          </div>
+                       
+          
+                          <div class="col-md-8">
+                          <label for="floatingEmail">Nombre d'élements</label>
+                            <div class="form-floating">
+                              <input type="number" class="form-control" id="floatingEmail" placeholder="Nombre d'élements" name="nombreElement" required>
+                              
+                            </div>
+                          </div>
+                       
+                          <div class="col-8">
+                          <label for="floatingTextarea">Description</label>
+                            <div class="form-floating">
+                              <textarea class="form-control" placeholder="Description" id="floatingTextarea" style="height: 100px;" type="text" name="message1"></textarea>
+                              
+                            </div>
+                          </div>
+          
+                          <div class="col-md-8">
+                          <label for="floatingSelect">Categorie de Produit</label>
+                            <div class="form-floating mb-3">
+                              <select class="form-select" id="floatingSelect" aria-label="State" name="categorie" type="text">
+                                <option value="Portable">Portable</option>
+                                <option value="Ventilateur">Ventilateur</option>
+                                <option value="Chargeur">Chargeur</option>
+                                <option value="ecouteur">Ecouteur</option>
+                                <option value="tablette">Tablette</option>
+                                <option value="ordinateur">Ordinateur</option>
+                                <option value="tablette">Ecouteur Bluetooth</option>
+                                <option value="tablette">Protége</option>
+                                <option value="tablette">Ralonge</option>
+                                <option value="tablette">Télécommande</option>
+                                <option value="tablette">Carte Mémoire</option>
+                                <option value="tablette">Projecteurs</option>
+                                <option value="tablette">Cles USB</option>
+                                <option value="tablette">Cable</option>
+                                <option value="tablette">Batterie</option>
+                                <option value="materiels-electronique">Materiels-Electroniques</option>
+                            </select>
+                            
+                              
+                            </div>
+                          </div>
+                          <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Enregistrer Produit</button>
+                            <button type="reset" class="btn btn-danger">Annuler</button>
+                          </div>
+                        </form><!-- End floating Labels Form -->
+          
+          
+                        <!-- General Form Elements -->
+                       </div>
+                    </div>
+          
+                    
+                  </div>
+          
+               
+                </div>
+              
+                </div>
+               
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Contact Section -->
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-6">
+              <div class="footer-info">
+                <a href="index.html" class="logo me-auto"
+                  ><img
+                    src="assets/img/bakeli.png"
+                    alt=""
+                    width="24%"
+                    class="img-fluid"
+                    style="
+                      border-top-left-radius: 30%;
+                      border-bottom-right-radius: 10%;
+                    "
+                /></a>
+                <p>
+                  Bakéli Scat Urbam <br />
+                  Bakéli HLM Grand Yoff<br /><br />
+                  <strong>Téléphone:</strong> +221 642-43-32<br />
+                  <strong>Email:</strong> info@example.com<br />
+                </p>
+                <div class="social-links mt-3">
+                  <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                  <a href="#" class="facebook"
+                    ><i class="bx bxl-facebook"></i
+                  ></a>
+                  <a href="#" class="instagram"
+                    ><i class="bx bxl-instagram"></i
+                  ></a>
+                  <a href="#" class="google-plus"
+                    ><i class="bx bxl-skype"></i
+                  ></a>
+                  <a href="#" class="linkedin"
+                    ><i class="bx bxl-linkedin"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+              <h4>Liens utils</h4>
+              <ul>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Accueil</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">A propos de nous</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Services</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Cout</a>
+                </li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#"></a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Nos Services</h4>
+              <ul>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Web Design</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Web Development</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Product Management</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i> <a href="#">Marketing</a>
+                </li>
+                <li>
+                  <i class="bx bx-chevron-right"></i>
+                  <a href="#">Graphic Design</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6 footer-newsletter">
+              <h4>Notre newsletter</h4>
+              <p>
+                S'abonner ici en entrant votre adresse email pour ne rater aucun
+                de nos offres et publicités!
+              </p>
+              <form action="" method="post">
+                <input type="email" name="email" /><input
+                  type="submit"
+                  value="S'inscrire"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Mbaye Diop</span></strong
+          >. Tout droit reserve
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/sailor-free-bootstrap-theme/ -->
+          Designed by MbayeDev from Bakeli School of Technology
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script>
+      const toggleMapLink = document.getElementById('toggleMap');
+      const mapContainer = document.getElementById('mapContainer');
+
+      toggleMapLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (
+          mapContainer.style.display === 'none' ||
+          mapContainer.style.display === ''
+        ) {
+          mapContainer.style.display = 'block';
+          toggleMapLink.textContent = 'Fermer la carte';
+        } else {
+          mapContainer.style.display = 'none';
+          toggleMapLink.textContent = 'Ouvrir la carte';
+        }
+      });
+    </script>
+  </body>
+</html>
